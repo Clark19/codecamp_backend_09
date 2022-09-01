@@ -1,0 +1,126 @@
+// BEST 게시물을 조회 GQL 코드
+query {
+  fetchBoardsOfTheBest {
+    _id
+    writer
+    title
+    contents
+    youtubeUrl
+    likeCount
+    dislikeCount
+    images
+    boardAddress {
+      _id
+      zipcode
+      address
+      addressDetail
+      createdAt
+      updatedAt
+      deletedAt
+    }
+    user {
+      _id
+      email
+      name
+      picture
+
+    	createdAt
+      updatedAt
+      deletedAt
+    }
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}
+
+
+// 결과
+{
+  "data": {
+    "fetchBoardsOfTheBest": [
+      {
+        "_id": "62c561237d035600293d97ac",
+        "writer": "포스트맨",
+        "title": "제목",
+        "contents": "내용",
+        "youtubeUrl": null,
+        "likeCount": 38,
+        "dislikeCount": 4,
+        "images": [
+          "codecamp-file-storage/2022/6/20/noimage.png"
+        ],
+        "boardAddress": {
+          "_id": "62c561237d035600293d97ab",
+          "zipcode": "123",
+          "address": "주소",
+          "addressDetail": "상세 주소",
+          "createdAt": "2022-07-06T10:17:07.449Z",
+          "updatedAt": "2022-07-06T10:17:07.449Z",
+          "deletedAt": null
+        },
+        "user": null,
+        "createdAt": "2022-07-06T10:17:07.463Z",
+        "updatedAt": "2022-07-06T10:17:07.463Z",
+        "deletedAt": null
+      },
+      {
+        "_id": "6231b55c7d035600293d9636",
+        "writer": "백2기",
+        "title": "이렇게 많이 누를 생각 없었는데",
+        "contents": "안돼",
+        "youtubeUrl": null,
+        "likeCount": 34,
+        "dislikeCount": 6,
+        "images": [],
+        "boardAddress": null,
+        "user": null,
+        "createdAt": "2022-03-16T10:01:00.865Z",
+        "updatedAt": "2022-03-16T10:01:00.865Z",
+        "deletedAt": null
+      },
+      {
+        "_id": "6231bb5d7d035600293d9652",
+        "writer": "신홍석",
+        "title": "몰라",
+        "contents": "신홍석의 작품 내용",
+        "youtubeUrl": null,
+        "likeCount": 20,
+        "dislikeCount": 3,
+        "images": [
+          "사진"
+        ],
+        "boardAddress": null,
+        "user": null,
+        "createdAt": "2022-03-16T10:26:37.629Z",
+        "updatedAt": "2022-03-16T10:26:37.629Z",
+        "deletedAt": null
+      },
+      {
+        "_id": "6231df487d035600293d969d",
+        "writer": "재형",
+        "title": "코드캠프 정복하기",
+        "contents": "멘토를 이기려면 어떻게 해야 할까? 아는 사람 손!",
+        "youtubeUrl": "www.물어보는것도 많네.com",
+        "likeCount": 15,
+        "dislikeCount": 1,
+        "images": [
+          "짱구"
+        ],
+        "boardAddress": {
+          "_id": "6231df487d035600293d969c",
+          "zipcode": "알아서 뭐하게",
+          "address": "소년 부끄럽사옵니다.",
+          "addressDetail": "저를 자세히 알고 싶나요?",
+          "createdAt": "2022-03-16T12:59:52.224Z",
+          "updatedAt": "2022-03-16T12:59:52.224Z",
+          "deletedAt": null
+        },
+        "user": null,
+        "createdAt": "2022-03-16T12:59:52.227Z",
+        "updatedAt": "2022-03-16T12:59:52.227Z",
+        "deletedAt": null
+      }
+    ]
+  }
+}
