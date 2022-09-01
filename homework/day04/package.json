@@ -1,0 +1,16 @@
+{
+  "type": "module",
+  "scripts": {
+    "start:dev": "nodemon index.js"
+  },
+  "name": "day04",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19",
+    "swagger-jsdoc": "^6.2.5",
+    "swagger-ui-express": "^4.5.0"
+  }
+}
