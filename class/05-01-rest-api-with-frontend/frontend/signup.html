@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>회원가입 연습하기</title>
+</head>
+<body>
+  <div>
+    휴대폰번호: <input type="text" id="inputAuth"><button onclick="onBtnClick()">인증하기</button></div>
+  <div id="authStatus">인증상태</div>
+  <button>회원가입하기</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    function onBtnClick() { 
+      // 1. 입력한 휴대폰 번호 가져오기
+      const phoneNumber = document.querySelector("#inputAuth").value
+      console.log("나의 핸드폰번호: ", phoneNumber)
+
+      // 2. 해당 휴대폰번호로 인증번호 API 요청하기
+      axios.post("http://localhost:3000/tokens/phone", {
+        phoneNumber: phoneNumber
+      }).then((res) => {
+        console.log(res)
+        document.getElementById("authStatus").innerText = res.data
+      })
+    }
+  </script>
+</body>
+</html>
