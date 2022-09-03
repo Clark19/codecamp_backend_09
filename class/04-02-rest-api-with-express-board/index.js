@@ -40,7 +40,7 @@ app.post("/boards", function(req, res) {
     //
 
     // 3. 디비에 저장이 잘됐으면 결과를 클라이언트에 응답(response) 추가
-    res.send("게시물 등록에 성공했습니다.") // .send(200)
+    res.send("게시물 등록에 성공했습니다.") // .status(200)
 })
 
 app.post("/tokens/phone", (req, res) => {
