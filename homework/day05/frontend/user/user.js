@@ -1,8 +1,9 @@
 // 회원 목록 조회 API를 요청해주세요.
-const getUser = () => {
+const getUser = async () => {
   // 받은 데이터로 createUserDiv함수를 이용해
   // 목록 화면을 완성해주세요.
-  createUserDiv()
+  const response = await axios.get(RequestUrl.USERS)
+  response.data.forEach(user => createUserDiv(user))
 }
 
 const createUserDiv = (data) => {

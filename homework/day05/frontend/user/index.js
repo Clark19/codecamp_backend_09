@@ -15,7 +15,9 @@ const openMenu = () => {
   titleWrapper.style.display = 'none'
 
   // 회원 목록 조회 API 요청
-  getUser()
+  getUser().catch((e) => {
+    console.log('error in fetching getUser:', e);
+  });
 }
 const closeMenu = () => {
   let wrapper = document.getElementById('Wrapper')

@@ -16,7 +16,9 @@ const openMenu = () => {
   titleWrapper.style.display = 'none'
 
   // 커피 목록 조회 API 요청
-  getCoffee()
+  getCoffee().catch((e) => {
+    console.log('error in fetching starbucks coffee munu:', e);
+  });
 }
 const closeMenu = () => {
   let wrapper = document.getElementById('Wrapper')
