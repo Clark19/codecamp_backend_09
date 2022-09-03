@@ -2,16 +2,7 @@
 const getUser = () => {
   // 받은 데이터로 createUserDiv함수를 이용해
   // 목록 화면을 완성해주세요.
-  axios.get("http://localhost:3000/users").then(res => {
-    console.log("res!!: ", res)
-    console.log("res.data: ", res.data)
-
-    res.data.forEach( user => {
-      console.log("user: ", user)
-      createUserDiv(user)
-    })
-  })
-
+  createUserDiv()
 }
 
 const createUserDiv = (data) => {
