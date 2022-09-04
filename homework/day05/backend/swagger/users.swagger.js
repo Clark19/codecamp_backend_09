@@ -8,6 +8,7 @@
  *       - in: query
  *         name: number
  *         type: int
+ *         description: 전송 받을 유저 데이터 갯수를 명시. 입력 없을시 5개. 임시 Mock 데이터임.
  *     responses:
  *       200:
  *         description: 성공

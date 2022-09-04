@@ -32,6 +32,6 @@ app.get("/starbucks", (req, res) => {
   res.send(getMockCoffeeData(req.query.number || 10))
 })
 
-app.listen(PORT, HOST, () => console.log("Server Running..."))
+app.listen(PORT, HOST, () => console.log(`Server Running at ${HOST}:${PORT} ...`))
 
 
