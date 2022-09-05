@@ -89,7 +89,7 @@ app.post("/tokens/phone", (req, res) => {
 
   // 2. 핸드폰 토큰 6자리 만들기
   const mytoken = getToken()
-  if (!getToken()) return
+  if (!mytoken()) return
   
   // 3. 핸드폰 번호에 토큰 전송하기(추후: 그전엔 콘솔에 출력)
   sendToToken(phoneNumber, mytoken)
