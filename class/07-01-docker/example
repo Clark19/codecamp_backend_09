@@ -1,0 +1,28 @@
+# 컴퓨터 만드는 설명서
+
+# 1. 운영체제 설치
+# FROM ubuntu:20.04
+
+# 2. nodejs의 yarn 설치
+# RUN apt install nodejs
+# RUN npm install -g yarn
+
+# 3. 내 컴퓨터에 있는 폴더나 파일을 도커 컴퓨터 안으로 복사하기
+# COPY 내컴퓨터폴더위치 도커컴퓨터폴더위치
+# COPY ./index.js /codecamp/
+
+# RUN mkdir myfolder => COPY 명령시 myfolder가 없으면 자동으로 만듦.
+# WORKDIR /codecamp/
+
+# 도커 이미지 build는 CMD 이전 줄 까지만 다운로드, 복사, 설치 등을 미리 하면서
+# 도커 이미지 만들어 놓음
+# < RUN , CMD 차이 > 똑같은 실행 명령어지만 차이가 있음.
+# RUN 명령어는 이미지 구울때 build 과정에 포함되어 실행되지만, 
+# CMD는 build에 포함안되고, 도커이미지 실행시에만 실행되서 
+# 실행 명령만 빠르게 할수 있고, 도커파일 안에서 한번만 사용 가능
+# 24시간 실행되는 서버 실행 명령을 run으로 할 경우 이미지가 빌드가 안되거ㄴ
+# 빌드과정 자체가 안 끝남. 
+
+# CMD는 가장 마지막에 실행시 하나만 사용
+# CMD yarn start:dev
+# CMD node index.js
