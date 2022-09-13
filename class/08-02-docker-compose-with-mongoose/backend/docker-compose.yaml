@@ -11,7 +11,8 @@ services:
       - ./email.js:/codecamp/email.js
       # - ./*.js:/codecamp/*.js
       # - ./src:/codecamp/src
-      # - .:/codecamp  비추천한다고 하셨음
+      # - .:/codecamp  비추천한다고 하셨음. 이 방식으로 하면 .dockerignore에 node_modules 제외 시켜도
+      #  무시되고 로컬에 있는 node_modules를 도커가 공유해 이상하게 작동하거나 에러 남.
       # package.json 이 바뀌면 그땐 빌드를 새로 다시 해야함.
       # 그리고 docker-compose.yaml 파일이 바뀐건 발드 다시 할 필요  없음.
       # Dockerfile  바뀌면 빌드해야 함.
