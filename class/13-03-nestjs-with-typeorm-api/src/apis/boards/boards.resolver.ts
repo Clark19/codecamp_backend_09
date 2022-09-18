@@ -12,7 +12,7 @@ export class BoardsResolver {
   //   return this.boardsService.getHello();
   // }
 
-  @Query(() => [Board])
+  @Query(() => [Board]) // @nestjs/graphql 임포트해야 함. @nestjs/common 아님
   fetchBoards() {
     return this.boardsService.findAll();
   }

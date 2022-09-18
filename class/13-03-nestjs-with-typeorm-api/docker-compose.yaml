@@ -31,4 +31,4 @@ services:
       MYSQL_DATABASE: 'mydocker09'
       MYSQL_ROOT_PASSWORD: 'root'
     ports:
-      - 27017:27017
+      - 3306:3306

@@ -2,12 +2,13 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BoardsModule } from './apis/boards/boards.module';
-import { Board } from './apis/boards/entities/board.entity';
+import { StarbucksModule } from './apis/starbucks/starbucks.module';
 import { ConfigModule } from '@nestjs/config';
+import { Starbucks } from './apis/starbucks/entities/starbucks.entity';
+
 @Module({
   imports: [
-    BoardsModule,
+    StarbucksModule,
     ConfigModule.forRoot(),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -20,7 +21,7 @@ import { ConfigModule } from '@nestjs/config';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      entities: [Board],
+      entities: [Starbucks],
       synchronize: true, // 이거 해야 소스코드랑 연동해 테이블 만들어줌. 따라서 개발할 때만 true로 해놓고, 배포할 때는 false로 해놓는다.
       logging: true, // typeorm이 생성해주는 쿼리를 보고 싶으면 true로 설정
     }),

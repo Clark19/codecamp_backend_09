@@ -33,6 +33,6 @@ export class BoardsService {
     //
 
     // 3. 디비에 저장이 잘됐으면 결과를 클라이언트에 응답(response) 추가
-    return '게시물 등록에 성공했습니다.'; // .send(200)
+    return '게시물 등록에 성공했습니다.';
   }
 }
