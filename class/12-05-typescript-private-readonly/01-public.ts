@@ -1,7 +1,7 @@
 // public, private, protected, readonly
 // 4,5 가지중 하나라도 생성자에 기입되면 자동으로 멤버변수로 생성되고, 생성자 안에서 this.변수명 = 변수명 생성됨.
 
-1. public
+// 1. public
 class Aaa1 {
   constructor(public mypower) {
     this.mypower = mypower; // public, private, protected, readonly 등 1개라도 있으면 자동 생성됨.

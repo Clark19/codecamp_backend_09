@@ -1,0 +1,43 @@
+1. 전자제품, 음식, 의류 카테고리 만들기
+2. product 데이터를 전자제품 카테고리와 연결시키기
+3. 두 테이블을 합쳐서 상품과 카테고리 함께 보여주기
+
+===============================================
+
+insert into product_category(id, name)
+     values(uuid(), "전자제품")
+;
+
+insert into product_category(id, name)
+     values(uuid(), "음식")
+;
+
+insert into product_category(id, name)
+     values(uuid(), "의류")
+;
+
+select *
+  from product_category
+;
+
+update product
+   set productCategoryId = "fc2cf564-398b-11ed-9a35-6b9ed8605896"
+ where name = "마우스"
+    or name = "노트북"
+;
+
+select *
+  from product
+;
+
+select p.name as "상품명", pc.name as "카테고리명"
+  from product p, product_category pc
+ where p.productCategoryId = pc.id
+;
+
+select *
+  from product
+ where 1 = 1
+   and location = '구로'
+   and price = 5000
+   and isSoldout = false
