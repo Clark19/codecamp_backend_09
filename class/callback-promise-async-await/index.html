@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <title>콜백과 친구들</title>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <!-- `http://numbersapi.com/random?min=1&max=200` -->
+        <!-- `https://koreanjson.com/posts/${num}` -->
+        <!-- `https://koreanjson.com/posts?userId=${userId}` -->
+
+        <script>
+            /** 콜백 지옥 예 (Promise가 나오기 전 상황) */
+            function myCallback() {
+                const aa = new XMLHttpRequest();
+                aa.open("get", "http://numbersapi.com/random?min=1&max=200");
+                aa.send();
+                aa.addEventListener("load", (res) => {
+                    console.log(res);
+                    const num = res.target.response.split(" ")[0];
+                    console.log(num);
+
+                    const bb = new XMLHttpRequest();
+                    bb.open("get", `https://koreanjson.com/posts/${num}`);
+                    bb.send();
+                    bb.addEventListener("load", function (res) {
+                        const post = JSON.parse(res.target.responseText);
+                        console.log(post);
+                        const userId = post.userId;
+
+                        const cc = new XMLHttpRequest(); // 이건 Promise 기능 제공 안함.
+                        cc.open(
+                            "get",
+                            `https://koreanjson.com/posts?userId=${userId}`
+                        );
+                        cc.send();
+                        cc.addEventListener("load", function (res) {
+                            const posts = JSON.parse(res.target.responseText);
+                            console.log(posts);
+                        });
+                    });
+                });
+            }
+
+            /** Promise와 then()을 이용한 프로미스 체이닝을 통해 콜백지옥 해결
+             */
+            function myPromise() {
+                console.log("1");
+
+                axios
+                    .get("1번째 주소")
+                    .then((res) => {
+                        console.log("2");
+
+                        axios.get(`2번째 주소`);
+                        // .then();이렇게 콜백 지옥과 마찬가지가 될수있음
+                        // 대신 return으로 Promise 객체를 반환하면 바깥에서 prmise 체이닝 가능해 쭉 나열 가능
+                        return axios.get(`2번째 주소`);
+                    })
+                    .then(() => {
+                        console.log("3");
+                    });
+                // .then();이렇게 콜백 지옥과 마찬가지가 될수있음
+                // 대신 return으로 Promise 객체를 반환하면 바깥에서 prmise 체이닝 가능해 쭉 나열 가능
+
+                console.log("4");
+            }
+
+            /** async, awit로 위에서 아래 실행순서 보장
+             * axios, fetch 등 => 대표적인 Promise (.then 등의 기능) 를 지원하는 기능
+             * axios, fetch 등을 기다리는 2가지 방법
+             * 1) .then() 활용
+             * 2) async, await 활용: await 는 async 함수 안에서만 & Prmise 객체 리턴하는 애들 앞에만 사용 가능
+             */
+            async function myAsyncAwait() {
+                await axios.get("주소1");
+                await axios.get("주소2");
+                await axios.get("주소3");
+            }
+        </script>
+    </head>
+    <body>
+        <button onclick="myCallback()">Callback 연습하기!!</button>
+        <button onclick="myPromise()">Promise 연습하기!!</button>
+        <button onclick="myAsyncAwait()">AsyncAwait 연습하기!!</button>
+    </body>
+</html>
