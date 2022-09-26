@@ -102,7 +102,7 @@ export class ProductsService {
   }
 
   async update({ productId, updateProductInput }) {
-    // save()는 insert, update 둘다 가능. 결과를 받음.
+    // save()는 insert, update 둘다 가능하고, 만든 엔티티 결과를 받음.
     // this.productsRepository.create(); // 등록을 위한 빈 객체 만들기이므로 주의. .save() 랑 착각 금지
     // this.productsRepository.insert(); //결과는 못 받는 등록 방법
     // this.productsRepository.update(); // 결과 못 받는 수정 방법
