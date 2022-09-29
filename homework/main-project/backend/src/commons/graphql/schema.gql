@@ -1,0 +1,119 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Board {
+  number: Int!
+  writer: String!
+  title: String!
+  contents: String!
+}
+
+type Category {
+  id: String!
+  name: String!
+}
+
+type Payment {
+  id: String!
+  isPayed: Boolean!
+}
+
+type YoutubeInfo {
+  id: String!
+  url: String!
+  subtitlesEn: String
+  subtitlesKo: String
+  subtitlesWithTime: JSON
+  category: Category
+  users: [User!]
+  isEditable: Boolean
+  DeleteDate: DateTime
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type User {
+  id: String!
+  email: String!
+  nickName: String
+  profileImageUrl: String!
+  phone: String
+  payment: Payment
+  youtubeInfos: [YoutubeInfo!]
+  DeleteDate: DateTime
+}
+
+type Query {
+  fetchBoards: [Board!]!
+  fetchYoutubeInfos: [YoutubeInfo!]!
+  fetchYoutubeInfosWithDeleted: [YoutubeInfo!]!
+  fetchYoutubeInfo(youtubeInfoId: String!): YoutubeInfo!
+  fetchUsers: [User!]!
+  fetchUsersWithDeleted: [User!]!
+  fetchLoginUser: User!
+}
+
+type Mutation {
+  login(email: String!, password: String!): String!
+  restoreAccessToken: String!
+  createBoard(createBoardInput: CreateBoardInput): String!
+  createYoutubeInfo(createYoutubeInfoInput: CreateYoutubeInfoInput!): YoutubeInfo!
+  updateYoutubeInfo(youtubeInfoId: String!, updateYoutubeInfoInput: UpdateYoutubeInfoInput!): YoutubeInfo!
+  deleteYoutubeInfo(youtubeInfoId: String!): Boolean!
+  restoreYoutubeInfo(youtubeInfoId: String!): Boolean!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(userId: String!, updateUserInput: UpdateUserInput!): User!
+  updateUserPwd(userId: String!, password: String!): User!
+  deleteUser(userId: String!): Boolean!
+  deleteLoginUser(userId: String!): Boolean!
+  restoreUser(userId: String!): Boolean!
+}
+
+input CreateBoardInput {
+  writer: String!
+  title: String!
+  contents: String!
+}
+
+input CreateYoutubeInfoInput {
+  url: String!
+  subtitlesEn: String
+  subtitlesKo: String
+  subtitlesWithTime: JSON
+  isEditable: Boolean
+  categoryId: String
+  userId: String
+}
+
+input UpdateYoutubeInfoInput {
+  url: String
+  subtitlesEn: String
+  subtitlesKo: String
+  subtitlesWithTime: JSON
+  isEditable: Boolean
+  categoryId: String
+  userId: String
+}
+
+input CreateUserInput {
+  email: String!
+  nickName: String
+  password: String!
+  phone: String
+}
+
+input UpdateUserInput {
+  email: String
+  nickName: String
+  password: String
+  phone: String
+}
