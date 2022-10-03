@@ -26,7 +26,7 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'access') {
 
   validate(payload) {
     // constructor(){...} 내부로직에서 검사 성공시 validate() 실행됨.
-    console.log('in JwtAccessStrategy:', payload); // { email: a@a.com, sub: sakjsd-kjdfjk }. uuid가 sub에 들어있음
+    // console.log('in JwtAccessStrategy:', payload); // { email: a@a.com, sub: sakjsd-kjdfjk }. uuid가 sub에 들어있음
     return {
       email: payload.email,
       id: payload.sub,

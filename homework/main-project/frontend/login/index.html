@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>로그인/회원가입</title>
     <link rel="stylesheet" href="./index.css" />
+    // axios 라이브러리 추가
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <!-- 전체 컨테이너 -->
@@ -27,11 +30,19 @@
         </div>
         <div id="SocialLoginNaver">
           <img class="SocialLoginButtonImg" src="../img/naver.png" />
-          <a class="SocialLoginButtonTitle">네이버로 로그인</a>
+          <a
+            class="SocialLoginButtonTitle"
+            href="http://localhost:3000/login/naver"
+            >네이버로 로그인</a
+          >
         </div>
         <div id="SocialLoginKakao">
           <img class="SocialLoginButtonImg" src="../img/kakao.png" />
-          <a class="SocialLoginButtonTitle">카카오톡으로 로그인</a>
+          <a
+            class="SocialLoginButtonTitle"
+            href="http://localhost:3000/login/kakao"
+            >카카오톡으로 로그인</a
+          >
         </div>
         <div id="SocialLoginFacebook">
           <img class="SocialLoginButtonImg" src="../img/facebook.png" />

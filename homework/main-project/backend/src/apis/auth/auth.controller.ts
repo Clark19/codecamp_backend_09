@@ -21,11 +21,10 @@ export class AuthController {
     private readonly authService: AuthService,
   ) {}
 
-  @Get('/login/google')
-  @UseGuards(AuthGuard('google'))
-  async loginGoogle(
-    @Req() req: Request & IOAuthUser, //
-    @Res() res: Response,
+  private async socialLogin(
+    req: Request & IOAuthUser,
+    res: Response,
+    redirectUrl: string,
   ) {
     // 1. 회원조회
     let user = await this.usersService.findOne(req.user.email);
@@ -44,9 +43,33 @@ export class AuthController {
     this.authService.setRefreshToken({ user, res });
 
     // 주의 반드시 import { Request, Response } from 'express';
-    res.redirect(
-      'http://127.0.0.1:5500/homework/main-project/frontend/login/index.html',
-      // 'http://127.0.0.1:5500/class/21-03-login-google/frontend/social-login.html',
-    );
+    res.redirect(redirectUrl);
+  }
+
+  @Get('/login/google')
+  @UseGuards(AuthGuard('google'))
+  async loginGoogle(
+    @Req() req: Request & IOAuthUser, //
+    @Res() res: Response,
+  ) {
+    this.socialLogin(req, res, process.env.REDIRECT_URL);
+  }
+
+  @Get('/login/kakao')
+  @UseGuards(AuthGuard('kakao'))
+  async loginKakao(
+    @Req() req: Request & IOAuthUser, //
+    @Res() res: Response,
+  ) {
+    this.socialLogin(req, res, process.env.REDIRECT_URL);
+  }
+
+  @Get('/login/naver')
+  @UseGuards(AuthGuard('naver'))
+  async loginNaver(
+    @Req() req: Request & IOAuthUser, //
+    @Res() res: Response,
+  ) {
+    this.socialLogin(req, res, process.env.REDIRECT_URL);
   }
 }

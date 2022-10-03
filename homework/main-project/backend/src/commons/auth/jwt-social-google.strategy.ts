@@ -11,17 +11,18 @@ export class JwtGoogleStrategy extends PassportStrategy(Strategy, 'google') {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/login/google',
+      callbackURL: process.env.GOOGLE_CALLBACK_URL,
       scope: ['email', 'profile'], // 구글/네이버 등의 Docs 에 따라 달라짐
     });
   }
 
+  // overriding
   validate(accessToken, refreshToken, profile) {
     // refreshToken은 안들어는 소셜로그인도 있음.
     // 컨스트럭터의 검사 성공시 validate() 실행됨.
-    console.log(accessToken); // { email: a@a.com, sub: sakjsd-kjdfjk }
-    console.log(refreshToken);
-    console.log(profile);
+    // console.log('구글로그인: ', accessToken); // { email: a@a.com, sub: sakjsd-kjdfjk }
+    // console.log(refreshToken);
+    // console.log(profile);
     return {
       email: profile.emails[0].value, // 이런것들은 문서나 콘솔로그 짂어서 확인해야 함.
       hashedPassword: '1234',
