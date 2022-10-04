@@ -9,11 +9,13 @@ import GraphQLJSON from 'graphql-type-json';
 import { YoutubeInfosModule } from './apis/youtubeInfo/youtubeInfos.module';
 import { UsersModule } from './apis/users/users.module';
 import { AuthModule } from './apis/auth/auth.module';
+import { PaymentsModule } from './apis/payments/payments.module';
 
 @Module({
   imports: [
     AuthModule,
     BoardsModule,
+    PaymentsModule,
     YoutubeInfosModule,
     UsersModule,
     ConfigModule.forRoot(), // .env 파일을 읽어서 process.env 에 넣는거 가능하게 하므로 TypeOrmModule.forRoot 보다 윗줄에 있어야 함

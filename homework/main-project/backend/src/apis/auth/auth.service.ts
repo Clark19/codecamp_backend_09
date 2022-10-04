@@ -28,8 +28,8 @@ export class AuthService {
     // header.payload.signature
     return this.jwtService.sign(
       { email: user.email, sub: user.id },
-      // { secret: process.env.ACCESS_KEY, expiresIn: '1h' },
-      { secret: process.env.ACCESS_KEY, expiresIn: '20s' },
+      { secret: process.env.ACCESS_KEY, expiresIn: '1h' },
+      // { secret: process.env.ACCESS_KEY, expiresIn: '20s' },
     );
   }
 }

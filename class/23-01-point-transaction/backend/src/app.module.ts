@@ -9,7 +9,6 @@ import { ProductsCategoriesModule } from './apis/productsCategories/productsCate
 import { ProductsModule } from './apis/products/products.module';
 import { UsersModule } from './apis/users/users.module';
 import { AuthModule } from './apis/auth/auth.module';
-import { PointTransaction } from './apis/pointsTransactions/entities/pointTransaction.entity';
 import { PointsTransactionsModule } from './apis/pointsTransactions/pointsTransactions.module';
 
 @Module({

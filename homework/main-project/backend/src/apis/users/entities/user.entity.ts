@@ -7,6 +7,7 @@ import {
   JoinColumn,
   ManyToMany,
   OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
@@ -38,10 +39,10 @@ export class User {
   @Field(() => String, { nullable: true })
   phone: string;
 
-  @JoinColumn()
-  @OneToOne(() => Payment)
-  @Field(() => Payment, { nullable: true })
-  payment: Payment;
+  // @JoinColumn()
+  @OneToMany(() => Payment, (payments) => payments.user)
+  @Field(() => [Payment], { nullable: true })
+  payments: Payment[];
 
   @ManyToMany(() => YoutubeInfo, (youtubeInfos) => youtubeInfos.users)
   @Field(() => [YoutubeInfo], { nullable: true })
