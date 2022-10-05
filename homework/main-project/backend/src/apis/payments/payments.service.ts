@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { validate } from 'class-validator';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { Payment, PAYMENT_STATUS_ENUM } from './entities/payment.entity';
@@ -14,14 +15,14 @@ export class PaymentsService {
     private readonly usersRepository: Repository<User>,
   ) {}
 
-  async create({ impUid, amount, user: _user }) {
+  async create({ impUid, amount, user: _user, status }) {
     // 1. Payment 테이블에 거래기록 1줄 생성
     // 빈객체 만드는 거라 디비랑 상관없어서 await 안해도 됨
     const payment = this.paymentsRepository.create({
       impUid,
       amount,
       user: _user,
-      status: PAYMENT_STATUS_ENUM.PAYMENT,
+      status,
     });
 
     await this.paymentsRepository.save(payment);

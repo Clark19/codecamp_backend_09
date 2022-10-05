@@ -8,9 +8,12 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+// ready:미결제, paid:결제완료, cancelled:결제취소, failed:결제실패
 export enum PAYMENT_STATUS_ENUM {
-  PAYMENT = 'PAYMENT',
-  CANCEL = 'CANCEL',
+  READY = 'ready',
+  PAID = 'paid',
+  CANCELLED = 'cancelled',
+  FAILED = 'failed',
 }
 
 // enum타입을 graphql에 등록

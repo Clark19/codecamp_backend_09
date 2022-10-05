@@ -24,8 +24,10 @@ type Payment {
 }
 
 enum PAYMENT_STATUS_ENUM {
-  PAYMENT
-  CANCEL
+  READY
+  PAID
+  CANCELLED
+  FAILED
 }
 
 type YoutubeInfo {
@@ -76,6 +78,7 @@ type Mutation {
   restoreAccessToken: String!
   createBoard(createBoardInput: CreateBoardInput): String!
   createPayment(impUid: String!, amount: Int!): Payment!
+  cancelPayment(impUid: String!, amount: Int): Payment!
   createYoutubeInfo(createYoutubeInfoInput: CreateYoutubeInfoInput!): YoutubeInfo!
   updateYoutubeInfo(youtubeInfoId: String!, updateYoutubeInfoInput: UpdateYoutubeInfoInput!): YoutubeInfo!
   deleteYoutubeInfo(youtubeInfoId: String!): Boolean!
