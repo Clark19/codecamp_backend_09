@@ -18,7 +18,7 @@ export class UsersService {
 
   async findAll() {
     const result = await this.usersRepository.find({
-      relations: ['payment'],
+      relations: ['payments'],
     });
 
     return result;
@@ -26,24 +26,18 @@ export class UsersService {
 
   async findAllWithDeleted() {
     const result = await this.usersRepository.find({
-      relations: ['payment'],
+      relations: ['payments'],
       withDeleted: true,
     });
 
     return result;
   }
 
-  // async findOne(userId: string) {
-  //   return this.usersRepository.findOne({
-  //     where: { id: userId },
-  //     relations: ['payment'],
-  //   });
-  // }
 
   async findOne(email: string) {
     return this.usersRepository.findOne({
       where: { email },
-      relations: ['payment'],
+      relations: ['payments'],
     });
   }
 
@@ -79,12 +73,6 @@ export class UsersService {
     return result;
   }
 
-  // async updatePassword(userId, password) {
-  //   return this.update({
-  //     userId,
-  //     updateUserInput: { password },
-  //   });
-  // }
 
   async delete(userId: string) {
     const user = await this.usersRepository.findOne({
