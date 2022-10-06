@@ -1,5 +1,5 @@
 import { ConsoleLogger, UseGuards } from '@nestjs/common';
-import { Args, Context, Int, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Context, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 import { IContext } from 'src/commons/types/context';
 import { IamportService } from '../iamport/iamport.service';
@@ -47,13 +47,13 @@ export class PaymentsResolver {
   ) {
     const user = context.req.user;
 
-    const paymentData = this.iamportService.validateCancelInput({
+    const payments = await this.iamportService.validateCancelInput({
       impUid,
       amount,
       user,
     });
 
-    const payment = this.paymentsService.create({
+    const payment = await this.paymentsService.create({
       impUid,
       amount: -amount,
       user,

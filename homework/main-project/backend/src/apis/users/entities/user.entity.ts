@@ -51,4 +51,8 @@ export class User {
   @DeleteDateColumn()
   @Field(() => Date, { nullable: true })
   DeleteDate: Date;
+
+  @Column({ default: 0, nullable: true })
+  @Field(() => Int, { nullable: true })
+  point: number;
 }

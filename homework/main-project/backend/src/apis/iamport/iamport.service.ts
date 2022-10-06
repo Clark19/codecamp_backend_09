@@ -83,17 +83,19 @@ export class IamportService {
   }
 
   async validateCancelInput({ impUid, amount, user }) {
-    const payment = await this.paymentsRepository.findOne({
+    const payments = await this.paymentsRepository.find({
       where: { impUid },
     });
-    if (!payment)
+
+    if (!payments)
       throw new UnprocessableEntityException('결제 정보가 없습니다.');
-    if (payment.status === PAYMENT_STATUS_ENUM.CANCELLED)
-      throw new UnprocessableEntityException('이미 취소된 거래입니다.');
+    for (const pay of payments) {
+      if (pay.status === PAYMENT_STATUS_ENUM.CANCELLED)
+        throw new UnprocessableEntityException('이미 취소된 거래입니다.');
+    }
 
     // get access token from iamport
     const { data: accessTokenData } = await this.getAccessToken();
-    console.log('accessTokenData: ', accessTokenData);
 
     // get payment data from iamport
     // 0. imp_uid로 iamport 서버에 거래내역 조회
@@ -119,11 +121,9 @@ export class IamportService {
         );
       });
 
-    console.log('paymentData::  ', paymentData);
-
     if (paymentData.code !== 0)
       throw new UnprocessableEntityException(paymentData.message);
 
-    return payment;
+    return payments;
   }
 }

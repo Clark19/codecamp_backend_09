@@ -61,6 +61,7 @@ type User {
   payments: [Payment!]
   youtubeInfos: [YoutubeInfo!]
   DeleteDate: DateTime
+  point: Int
 }
 
 type Query {

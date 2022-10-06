@@ -16,7 +16,7 @@ export class PointsTransactionsService {
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
 
-    private readonly dataSource: DataSource, // 예전 버전은 DataConnection이었음
+    private readonly dataSource: DataSource, // 예전 버전은 Connection이었음
   ) {}
 
   async create({ impUid, amount, user: _user }) {
@@ -39,7 +39,7 @@ export class PointsTransactionsService {
       // await this.pointsTransactionsRepository.save(pointTransaction);
       await queryRunner.manager.save(pointTransaction);
       // .save() 생성하고 생성한 객체 리턴함
-      // insert(), update(), delete()는 생성한 객체 리턴 안함으로
+      // insert(), update(), delete()는 생성한 객체 리턴 안하므로
       // 좋아요 기능 같은거는 프론트에 굳이 리턴안해되니 그때 사용하면 좋음.
 
       // throw new Error('강제로 에러 발생!!!');
