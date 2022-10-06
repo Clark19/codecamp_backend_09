@@ -1,0 +1,23 @@
+show databases;
+
+# DB 변경하기
+use myproject09;
+
+# 테이블 조회하기
+show tables;
+
+# 커넥션 최대값(max_connections)
+show variables;
+
+# 커넥션 최대값 조정
+-- 디폴트값 151
+set global max_connections = 15;
+
+# 현재 연결된 커넥션 갯수(Thread_connected)
+show status; 
+
+# 현재 연결된 커넥션 목록
+show processlist;
+
+# 커넥션 종료(kill 커넥션ID)
+kill 295;
