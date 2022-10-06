@@ -22,10 +22,10 @@ export class JwtGoogleStrategy extends PassportStrategy(Strategy, 'google') {
     // 컨스트럭터의 검사 성공시 validate() 실행됨.
     // console.log('구글로그인: ', accessToken); // { email: a@a.com, sub: sakjsd-kjdfjk }
     // console.log(refreshToken);
-    // console.log(profile);
+    console.log('구글로그인: ', profile);
     return {
       email: profile.emails[0].value, // 이런것들은 문서나 콘솔로그 짂어서 확인해야 함.
-      hashedPassword: '1234',
+      password: '11',
       name: profile.displayName,
       // age: 0, // 필요하다면 나중에 알림으로 추가하게 유도 방법으로 추가
     }; // 리턴값이 req.user에 저장됨.

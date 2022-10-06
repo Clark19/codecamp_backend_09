@@ -39,7 +39,8 @@ export class UsersResolver {
           실질적인 내용은 src/commons/auth/jwt-access.strategy.ts 파일에서 작성하고 인가시 그 파일 로직 호출 됨.
        AuthGuard("qqq")안의 "qqq"는 jwt-access.strategy.ts에서 설정한 name임.
    */
-  // @UseGuards(AuthGuard('qqq')) // Rest API는 @UseGuards 데코레이터랑 ../commons/auth/jwt-access.strategy.ts 파일까지만 작성하면되고, GraphQl은 파일 하나 더 만들어야 함. gql-auth.guard.ts
+  // @UseGuards(AuthGuard('qqq')) // Rest API는 @UseGuards 데코레이터랑 ../commons/auth/jwt-access.strategy.ts 파일까지만 작성하면되고,
+  // GraphQl은 파일 하나 더 만들어야 함. gql-auth.guard.ts
   @UseGuards(GqlAuthAccessGuard) // request를 graphql request로 빠꿔치기 해주는 부분
   @Query(() => User)
   fetchLoginUser(
@@ -58,13 +59,9 @@ export class UsersResolver {
     // @Args({ name: 'age', type: () => Int }) age: number,
     @Args('createUserInput') createUserInput: CreateUserInput,
   ) {
-    const { password } = createUserInput;
-    const salt = await bcrypt.genSalt(9);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    console.log(hashedPassword);
     return this.usersService.create({
       ...createUserInput,
-      password: hashedPassword,
+      // password: hashedPassword,
     });
   }
 

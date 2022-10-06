@@ -12,7 +12,7 @@ export class JwtKakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
       clientID: process.env.KAKAO_CLIENT_ID,
       // clientSecret: process.env.KAKAO_CLIENT_SECRET,
       callbackURL: process.env.KAKAO_CALLBACK_URL,
-      // scope: ['email', 'profile'], // 구글/네이버 등의 Docs 에 따라 달라짐
+      scope: ['account_email', 'profile_nickname'], // 구글/네이버 등의 Docs 에 따라 달라짐
     });
   }
 
@@ -22,14 +22,12 @@ export class JwtKakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
     const profileJson = profile._json;
     const kakao_account = profileJson.kakao_account;
 
-    // console.log(accessToken); // { email: a@a.com, sub: sakjsd-kjdfjk }
-    // console.log(refreshToken);
-    // console.log(profile);
-    // console.log(profile.kakao_account);
+    console.log('profileJson: ', profileJson);
+    console.log('kakao_account: ', kakao_account);
 
     return {
-      email: kakao_account.email,
-      hashedPassword: '1234',
+      email: kakao_account.email || 'kakao_' + profileJson.id,
+      password: '11',
       name: profile.displayName,
     }; // 리턴값이 req.user에 저장됨.
     // ex) req.user = { email: "a@a.com", id: "sakjsd-kjdfjk" }

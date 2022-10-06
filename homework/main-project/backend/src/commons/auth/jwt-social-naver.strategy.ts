@@ -19,20 +19,11 @@ export class JwtNaverStrategy extends PassportStrategy(Strategy, 'naver') {
   validate(accessToken, refreshToken, profile) {
     // refreshToken을 안넘겨주는 소셜로그인도 있음.
     // 컨스트럭터의 검사 성공시 validate() 실행됨.
-    const profileJson = profile._json.response;
-
-    const user_email = profileJson.email;
-    const user_nick = profileJson.nickname; // = tona****
-
-    // console.log(accessToken); // { email: a@a.com, sub: sakjsd-kjdfjk }
-    // console.log(refreshToken);
-    // console.log("profile:", profile);
-    // console.log("profileJson:", profileJson);
 
     return {
-      email: user_email,
-      hashedPassword: '1234',
-      name: profileJson.name,
+      email: profile.email,
+      password: '11',
+      name: profile.name,
     }; // 리턴값이 req.user에 저장됨.
     // ex) req.user = { email: "a@a.com", id: "sakjsd-kjdfjk" }
   }

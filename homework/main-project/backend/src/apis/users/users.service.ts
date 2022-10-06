@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserInput } from './dto/createUser.input';
 import { User } from './entities/user.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -33,7 +34,6 @@ export class UsersService {
     return result;
   }
 
-
   async findOne(email: string) {
     return this.usersRepository.findOne({
       where: { email },
@@ -48,6 +48,11 @@ export class UsersService {
     if (user) throw new ConflictException('이미 등록된 이메일입니다.');
     // throw new HttpException('이미 등록된 이메일입니다.', HttpStatus.CONFLICT);
 
+    const salt = await bcrypt.genSalt(9);
+    createUserInput.password = await bcrypt.hash(
+      createUserInput.password,
+      salt,
+    );
     return this.usersRepository.save(createUserInput);
   }
 
@@ -72,7 +77,6 @@ export class UsersService {
 
     return result;
   }
-
 
   async delete(userId: string) {
     const user = await this.usersRepository.findOne({

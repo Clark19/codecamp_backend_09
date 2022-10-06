@@ -8,7 +8,7 @@ import { Request, Response } from 'express';
 interface IOAuthUser {
   user?: {
     email: string;
-    hashedPassword: string;
+    password: string;
     name: string;
     // age: number;
   };
@@ -30,14 +30,15 @@ export class AuthController {
     let user = await this.usersService.findOne(req.user.email);
 
     // 2. 회원가입이 안돼있으면 자동회원가입
-    const { hashedPassword: password, name: nickName } = req.user;
-    if (!user)
+    if (!user) {
+      const { password, name: nickName } = req.user;
       user = await this.usersService.create({
         email: req.user.email,
         password,
         nickName,
         phone: '',
       });
+    }
 
     // 3. 회원가입이 돼있다면? 로그인(accesToken 만들어서 프론트엔드에 추가)
     this.authService.setRefreshToken({ user, res });
