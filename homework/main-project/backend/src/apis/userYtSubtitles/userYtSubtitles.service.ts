@@ -12,7 +12,7 @@ export class UserYtSubtitlesService {
 
   create({ url }) {
     // DB에 x 등록
-    const result = this.userYtSubtitlesRepository.save({ url });
+    const result = this.userYtSubtitlesRepository.save({});
     console.log(result); // { id: qkljafsiouq-120983jklasdk, url: 가전제품 }
     return result;
   }
