@@ -2,6 +2,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import GraphQLJSON from 'graphql-type-json';
 import { Category } from 'src/apis/categories/entities/category.entity';
 import { User } from 'src/apis/users/entities/user.entity';
+import { UserYtSubtitle } from 'src/apis/userYtSubtitles/entities/userYtSubtitle.entity';
 import {
   Column,
   Entity,
@@ -12,6 +13,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -48,11 +50,19 @@ export class YoutubeInfo {
   @Field(() => Category, { nullable: true })
   category: Category;
 
-  @JoinTable() // 타입 orm이 중간 테이블을 만들어줌. 중간 테이블에 추가 컬럼을 넣어야 할 땐 직접 중간 테이블을 만들어야 함.
-  @ManyToMany(() => User, (users) => users.youtubeInfos)
-  // @ManyToMany하면 이 테이블에 속한 컬럼으로 만들어지지 않음
-  @Field((type) => [User], { nullable: true })
-  users: User[];
+  // @JoinTable() // 타입 orm이 중간 테이블을 만들어줌. 중간 테이블에 추가 컬럼을 넣어야 할 땐 직접 중간 테이블을 만들어야 함.
+  // @ManyToMany(() => User, (users) => users.youtubeInfos)
+  // // @ManyToMany하면 이 테이블에 속한 컬럼으로 만들어지지 않음
+  // @Field((type) => [User], { nullable: true })
+  // users: User[];
+
+  // ManyToMany 관계를 수동으로 만듦.
+  @OneToMany(
+    () => UserYtSubtitle,
+    (userYtSubtitles) => userYtSubtitles.youtubeInfo,
+  )
+  @Field(() => [UserYtSubtitle], { nullable: true })
+  userYtSubtitles: UserYtSubtitle[];
 
   @Column({ default: true })
   @Field(() => Boolean, { nullable: true })

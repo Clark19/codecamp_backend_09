@@ -10,11 +10,13 @@ import { YoutubeInfosModule } from './apis/youtubeInfo/youtubeInfos.module';
 import { UsersModule } from './apis/users/users.module';
 import { AuthModule } from './apis/auth/auth.module';
 import { PaymentsModule } from './apis/payments/payments.module';
+import { FilesModule } from './apis/files/files.module';
 
 @Module({
   imports: [
     AuthModule,
     BoardsModule,
+    FilesModule,
     PaymentsModule,
     YoutubeInfosModule,
     UsersModule,

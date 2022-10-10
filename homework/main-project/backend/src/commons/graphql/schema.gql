@@ -37,7 +37,7 @@ type YoutubeInfo {
   subtitlesKo: String
   subtitlesWithTime: JSON
   category: Category
-  users: [User!]
+  userYtSubtitles: [UserYtSubtitle!]
   isEditable: Boolean
   DeleteDate: DateTime
 }
@@ -52,6 +52,15 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type UserYtSubtitle {
+  id: String!
+  userId: String!
+  youtubeInfoId: String!
+  user: User!
+  youtubeInfo: YoutubeInfo!
+  imageUrl: [String!]!
+}
+
 type User {
   id: String!
   email: String!
@@ -59,7 +68,7 @@ type User {
   profileImageUrl: String!
   phone: String
   payments: [Payment!]
-  youtubeInfos: [YoutubeInfo!]
+  userYtSubtitles: [UserYtSubtitle!]
   DeleteDate: DateTime
   point: Int
 }
@@ -78,6 +87,7 @@ type Mutation {
   login(email: String!, password: String!): String!
   restoreAccessToken: String!
   createBoard(createBoardInput: CreateBoardInput): String!
+  uploadFile(files: [Upload!]!): [String!]!
   createPayment(impUid: String!, amount: Int!): Payment!
   cancelPayment(impUid: String!, amount: Int): Payment!
   createYoutubeInfo(createYoutubeInfoInput: CreateYoutubeInfoInput!): YoutubeInfo!
@@ -97,6 +107,9 @@ input CreateBoardInput {
   title: String!
   contents: String!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input CreateYoutubeInfoInput {
   url: String!
