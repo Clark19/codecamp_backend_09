@@ -2,7 +2,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import GraphQLJSON from 'graphql-type-json';
 import { Category } from 'src/apis/categories/entities/category.entity';
 import { User } from 'src/apis/users/entities/user.entity';
-import { UserYtSubtitle } from 'src/apis/userYtSubtitles/entities/userYtSubtitle.entity';
+import { UserSubtitles } from 'src/apis/userSubtitles/entities/userSubtitles.entity';
 import {
   Column,
   Entity,
@@ -29,15 +29,15 @@ export class YoutubeInfo {
   @Field(() => String)
   url: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   @Field(() => String, { nullable: true })
   subtitlesEn: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   @Field(() => String, { nullable: true })
   subtitlesKo: string;
 
-  @Column({ type: 'json' })
+  @Column({ type: 'json', nullable: true })
   @Field((type) => GraphQLJSON, { nullable: true })
   // subtitlesWithTime?: JSON;
   subtitlesWithTime: JSON;
@@ -46,23 +46,19 @@ export class YoutubeInfo {
   // 하지만 @OneToMany 사용하면 안되고 상대 클래스 Entity(테이블) 컬럼에 @ManyToOne을 해야 함.
   // ManyToOne은 원래 mysql에 있으므로 ManyToOne 단독 사용 가능.
   // , ManyToOne 한 후 필요할 때 OneToMany를 상대 엔티티 컬럼에 넣을수는 있으나 퍼포먼스 측면에선 나쁠수 있다고 함.
-  @ManyToOne(() => Category)
+  @ManyToOne(() => Category, { nullable: true })
   @Field(() => Category, { nullable: true })
   category: Category;
 
-  // @JoinTable() // 타입 orm이 중간 테이블을 만들어줌. 중간 테이블에 추가 컬럼을 넣어야 할 땐 직접 중간 테이블을 만들어야 함.
-  // @ManyToMany(() => User, (users) => users.youtubeInfos)
-  // // @ManyToMany하면 이 테이블에 속한 컬럼으로 만들어지지 않음
-  // @Field((type) => [User], { nullable: true })
-  // users: User[];
+  @JoinTable() // 타입 orm이 중간 테이블을 만들어줌. 중간 테이블에 추가 컬럼을 넣어야 할 땐 직접 중간 테이블을 만들어야 함.
+  @ManyToMany(() => User, (users) => users.youtubeInfos, { nullable: true })
+  // @ManyToMany하면 이 테이블에 속한 컬럼으로 만들어지지 않음
+  @Field((type) => [User], { nullable: true })
+  users: User[];
 
-  // ManyToMany 관계를 수동으로 만듦.
-  @OneToMany(
-    () => UserYtSubtitle,
-    (userYtSubtitles) => userYtSubtitles.youtubeInfo,
-  )
-  @Field(() => [UserYtSubtitle], { nullable: true })
-  userYtSubtitles: UserYtSubtitle[];
+  // @OneToMany(() => UserSubtitle, (userSubtitles) => userSubtitles.youtubeInfo)
+  // @Field(() => [UserSubtitle], { nullable: true })
+  // userSubtitles: UserSubtitle[];
 
   @Column({ default: true })
   @Field(() => Boolean, { nullable: true })

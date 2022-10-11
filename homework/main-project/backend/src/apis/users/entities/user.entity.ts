@@ -11,7 +11,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { UserYtSubtitle } from 'src/apis/userYtSubtitles/entities/userYtSubtitle.entity';
+import { UserSubtitles } from 'src/apis/userSubtitles/entities/userSubtitles.entity';
 
 @Entity()
 @ObjectType()
@@ -40,19 +40,18 @@ export class User {
   @Field(() => String, { nullable: true })
   phone: string;
 
-  // @JoinColumn()
   @OneToMany(() => Payment, (payments) => payments.user)
   @Field(() => [Payment], { nullable: true })
   payments: Payment[];
 
-  // @ManyToMany(() => YoutubeInfo, (youtubeInfos) => youtubeInfos.users)
-  // @Field(() => [YoutubeInfo], { nullable: true })
-  // youtubeInfos: YoutubeInfo[];
+  @ManyToMany(() => YoutubeInfo, (youtubeInfos) => youtubeInfos.users)
+  @Field(() => [YoutubeInfo], { nullable: true })
+  youtubeInfos: YoutubeInfo[];
 
   // ManyToMany 관계를 수동으로 만듦.
-  @OneToMany(() => UserYtSubtitle, (userYtSubtitles) => userYtSubtitles.user)
-  @Field(() => [UserYtSubtitle], { nullable: true })
-  userYtSubtitles: UserYtSubtitle[];
+  // @OneToMany(() => UserSubtitle, (userYtSubtitles) => userYtSubtitles.user)
+  // @Field(() => [UserSubtitle], { nullable: true })
+  // userYtSubtitles: UserSubtitle[];
 
   @DeleteDateColumn()
   @Field(() => Date, { nullable: true })

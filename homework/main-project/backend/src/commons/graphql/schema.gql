@@ -37,7 +37,7 @@ type YoutubeInfo {
   subtitlesKo: String
   subtitlesWithTime: JSON
   category: Category
-  userYtSubtitles: [UserYtSubtitle!]
+  users: [User!]
   isEditable: Boolean
   DeleteDate: DateTime
 }
@@ -52,15 +52,6 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type UserYtSubtitle {
-  id: String!
-  userId: String!
-  youtubeInfoId: String!
-  user: User!
-  youtubeInfo: YoutubeInfo!
-  imageUrl: [String!]!
-}
-
 type User {
   id: String!
   email: String!
@@ -68,9 +59,15 @@ type User {
   profileImageUrl: String!
   phone: String
   payments: [Payment!]
-  userYtSubtitles: [UserYtSubtitle!]
+  youtubeInfos: [YoutubeInfo!]
   DeleteDate: DateTime
   point: Int
+}
+
+type UserSubtitles {
+  id: String!
+  youtubeInfo: YoutubeInfo!
+  subtitlesEn: String
 }
 
 type Query {
@@ -81,6 +78,8 @@ type Query {
   fetchUsers: [User!]!
   fetchUsersWithDeleted: [User!]!
   fetchLoginUser: User!
+  fetchUserSubtitles: [UserSubtitles!]!
+  fetchUserSubtitle(userSubtitleId: String!): UserSubtitles!
 }
 
 type Mutation {
@@ -100,6 +99,8 @@ type Mutation {
   deleteUser(userId: String!): Boolean!
   deleteLoginUser(userId: String!): Boolean!
   restoreUser(userId: String!): Boolean!
+  createUserSubtitles(createUserSubtitleInput: CreateUserSubtitlesInput!): UserSubtitles!
+  updateUserSubtitles(userSubtitlesId: String!, updateUserSubtitlesInput: UpdateUserSubtitlesInput!): UserSubtitles!
 }
 
 input CreateBoardInput {
@@ -116,7 +117,6 @@ input CreateYoutubeInfoInput {
   subtitlesEn: String
   subtitlesKo: String
   subtitlesWithTime: JSON
-  isEditable: Boolean
   categoryId: String
   userId: String
 }
@@ -126,7 +126,6 @@ input UpdateYoutubeInfoInput {
   subtitlesEn: String
   subtitlesKo: String
   subtitlesWithTime: JSON
-  isEditable: Boolean
   categoryId: String
   userId: String
 }
@@ -143,4 +142,20 @@ input UpdateUserInput {
   nickName: String
   password: String
   phone: String
+}
+
+input CreateUserSubtitlesInput {
+  youtubeInfoId: String!
+  subtitlesEn: String
+  subtitlesKo: String
+  subtitlesWithTime: JSON
+  imgUrls: [String!]
+}
+
+input UpdateUserSubtitlesInput {
+  youtubeInfoId: String
+  subtitlesEn: String
+  subtitlesKo: String
+  subtitlesWithTime: JSON
+  imgUrls: [String!]
 }

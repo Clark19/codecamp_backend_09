@@ -101,24 +101,62 @@ export class YoutubeInfosService {
     //   subtitlesWithTime: JSON.stringify(this.subtitlesWithTimeJson),
     // });
 
-    const { categoryId, userId, ...youtubeInfo } = createYoutubeInfoInput;
+    const { categoryId, userId, ...youtubeInfoInput } = createYoutubeInfoInput;
+
+    const youtubeInfo = await this.youtubeInfosRepository.findOne({
+      where: { url: youtubeInfoInput.url },
+      relations: ['category', 'users'],
+    });
 
     const categoryResult = await this.categoriesRepository.findOne({
       where: { id: categoryId },
     });
 
-    const userResult = await this.usersRepository.findOne({
+    // const userResult = await this.usersRepository.findOne({
+    //   where: { id: userId },
+    // });
+    const usersResult = await this.usersRepository.find({
       where: { id: userId },
     });
+    console.log(4, 'userResult', usersResult);
 
-    const result = await this.youtubeInfosRepository.save({
-      ...youtubeInfo,
-      subtitlesWithTime: JSON.stringify(this.subtitlesWithTimeJson),
-      category: { id: categoryId },
-      users: { id: userId },
-    });
+    let result = null;
+    if (youtubeInfo) {
+      console.log('유튜 정보 있을때', youtubeInfo);
+      // update
+      // 1. user 연결 정보 있을때
+      //   1.1 category, 자막등 들어와서 업데이트
+      //   1.2 없을때
+      if (userId) {
+        // 유저 아이디가 클라이언트로 부터 전달됐을때
+        result = await this.youtubeInfosRepository.save({
+          ...youtubeInfo,
+          id: youtubeInfo.id, // id 프라퍼티 있어야 업데이트임, 없으면 create
+          ...youtubeInfoInput,
+          category: categoryResult,
+          users: usersResult,
+        });
+      } else {
+        result = await this.youtubeInfosRepository.save({
+          ...youtubeInfo,
+          id: youtubeInfo.id, // id 프라퍼티 있어야 업데이트임, 없으면 create
+          ...youtubeInfoInput,
+          category: categoryResult,
+        });
+      }
+    } else {
+      console.log('유튜 정보 없을때', youtubeInfo);
+      result = await this.youtubeInfosRepository.save({
+        ...youtubeInfoInput,
+        subtitlesWithTime: JSON.stringify(this.subtitlesWithTimeJson),
+        category: categoryId ? { id: categoryId } : null,
+        users: userId ? usersResult : null,
+      });
+    }
+    console.log(5);
 
-    return { ...result, category: categoryResult, users: [userResult] }; // {id: uuid, name: '마우스', description: '좋은 마우스', price: 3000}
+    // return { ...result, category: categoryResult, users: [userResult] }; // {id: uuid, name: '마우스', description: '좋은 마우스', price: 3000}
+    return result;
   }
 
   async update({ youtubeInfoId, updateYoutubeInfoInput }) {
@@ -127,13 +165,13 @@ export class YoutubeInfosService {
     // this.productsRepository.insert(); //결과는 못 받는 등록 방법
     // this.productsRepository.update(); // 결과 못 받는 수정 방법
 
-    // 수정 후 수정되지 않은 다른 결과 값까지 모두 받고 싶을 때 사용
+    // 수정 후 수정되지 않은 다른 결과 값까지 fe에서 모두 받고 싶을 때 사용
     const myyoutubeInfo = await this.youtubeInfosRepository.findOne({
       where: { id: youtubeInfoId },
     });
 
     // .save({ ... })시 id가 있으면 update, 없으면 create
-    // 기존에 있던 내용 추가 안해주면 업데이트 된 필드만 updateYoutubeInfoInput 담겨 리턴받고 프론트엔드도 그것만 받게된다. 따라서 프론트엔드에서 정보가 더 필요하면 fetchProduct를 다시 호출해야 한다. 그렇게 안하게 하려면 백엔드에서 알아서 조회해서 모든 정보 다 채워서 넣는 방법이 있다. 프론트엔드와 협의 하기 나름 또는  회사/팀 정책에 따라 어찌 구현할지 달라진다.
+    // 기존에 있던 내용 추가 안해주면 업데이트 된 필드만 담겨 리턴받고 프론트엔드도 그것만 받게된다. 따라서 프론트엔드에서 정보가 더 필요하면 fetchProduct를 다시 호출해야 한다. 그렇게 안하게 하려면 백엔드에서 알아서 조회해서 모든 정보 다 채워서 넣는 방법이 있다. 프론트엔드와 협의 하기 나름 또는  회사/팀 정책에 따라 어찌 구현할지 달라진다.
     const result = this.youtubeInfosRepository.save({
       ...myyoutubeInfo, // 기존 정보 추가 해주기
       id: youtubeInfoId,

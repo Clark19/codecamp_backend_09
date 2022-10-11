@@ -17,9 +17,6 @@ export class CreateYoutubeInfoInput {
   @Field(() => GraphQLJSON, { nullable: true })
   subtitlesWithTime: JSON;
 
-  @Field(() => Boolean, { nullable: true })
-  isEditable?: boolean;
-
   // @Min(0)
   // @Field(() => Int)
   // price: number;

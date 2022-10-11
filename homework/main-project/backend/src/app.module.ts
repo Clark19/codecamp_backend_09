@@ -11,6 +11,7 @@ import { UsersModule } from './apis/users/users.module';
 import { AuthModule } from './apis/auth/auth.module';
 import { PaymentsModule } from './apis/payments/payments.module';
 import { FilesModule } from './apis/files/files.module';
+import { UserSubtitlesModule } from './apis/userSubtitles/userSubtitles.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { FilesModule } from './apis/files/files.module';
     PaymentsModule,
     YoutubeInfosModule,
     UsersModule,
+    UserSubtitlesModule,
     ConfigModule.forRoot(), // .env 파일을 읽어서 process.env 에 넣는거 가능하게 하므로 TypeOrmModule.forRoot 보다 윗줄에 있어야 함
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,

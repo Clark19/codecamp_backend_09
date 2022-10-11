@@ -14,10 +14,10 @@ export class FilesService {
     console.log(waitedFiles); // 결과: [file, file]
 
     // 스토리지 세팅하기
-    const bucket = 'park9-storage';
+    const bucket = process.env.GCP_BUCKET_NAME;
     const storage = new Storage({
-      projectId: 'backend-364006', // GCP접속 후 > 좌상단 프로젝트 이름 나온 선택박스 클릭 > 프로젝트 이름 옆 ID 복붙
-      keyFilename: 'gcp-file-storage.json', // secrec Key 파일 같은 역할, 다운로드 받은 파일 이름변경후 프로젝트에 삽입
+      projectId: process.env.GCP_PROJECT_ID, // GCP접속 후 > 좌상단 프로젝트 이름 나온 선택박스 클릭 > 프로젝트 이름 옆 ID 복붙
+      keyFilename: process.env.GCP_KEYFILE_NAME, // secrec Key 파일 같은 역할, 다운로드 받은 파일 이름변경후 프로젝트에 삽입
     }).bucket(bucket);
 
     // 세팅된 스토리지에 파일 올리기
