@@ -2,13 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Board {
-  number: Int!
-  writer: String!
-  title: String!
-  contents: String!
-}
-
 type Category {
   id: String!
   name: String!
@@ -71,7 +64,7 @@ type UserSubtitles {
 }
 
 type Query {
-  fetchBoards: [Board!]!
+  fetchBoards: String!
   fetchYoutubeInfos: [YoutubeInfo!]!
   fetchYoutubeInfosWithDeleted: [YoutubeInfo!]!
   fetchYoutubeInfo(youtubeInfoId: String!): YoutubeInfo!
@@ -85,6 +78,7 @@ type Query {
 type Mutation {
   login(email: String!, password: String!): String!
   restoreAccessToken: String!
+  logout: String!
   createBoard(createBoardInput: CreateBoardInput): String!
   uploadFile(files: [Upload!]!): [String!]!
   createPayment(impUid: String!, amount: Int!): Payment!

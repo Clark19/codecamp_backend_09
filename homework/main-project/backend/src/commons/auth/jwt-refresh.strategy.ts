@@ -1,11 +1,13 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-jwt';
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER, Inject, UnauthorizedException } from '@nestjs/common';
 
 /** 'refresh' strategy
  *    :  GqlAuthAccessGuard 에서 'refresh' 이 이름으로 연동해서 사용
  */
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
-  constructor() {
+  constructor(@Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {
     // 검사하는 부분임. 실패시 리턴
     // {} : 검사하는 로직 작성
     super({
@@ -20,12 +22,18 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
       },
       // passport에서 accessToken처럼 한줄짜리 함수 제공하지 않으므로 위와 같이 길게 작성
       secretOrKey: process.env.REFRESH_KEY, // 'myRefreshKey',
+      passReqToCallback: true,
     });
   }
 
-  validate(payload) {
+  async validate(req, payload) {
     // constructor(){...} 내부로직에서 검사 성공시 validate() 실행됨.
     console.log(payload); // { email: a@a.com, sub: sakjsd-kjdfjk }
+    const token = req.headers.authorization.replace('Bearer ', '');
+    const isToken = await this.cacheManager.get(`accessToken:${token}`);
+
+    if (isToken) throw new UnauthorizedException('레디스 블랙리스트');
+
     return {
       email: payload.email,
       id: payload.sub,

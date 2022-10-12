@@ -4,13 +4,16 @@ import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from './auth.service';
 import { IContext } from 'src/commons/types/context';
-import { GqlAuthRefreshGuard } from 'src/commons/auth/gql-auth.guard';
+import {
+  GqlAuthAccessGuard,
+  GqlAuthRefreshGuard,
+} from 'src/commons/auth/gql-auth.guard';
 
 @Resolver()
 export class AuthResolver {
   constructor(
     private readonly authService: AuthService, //
-    private readonly usersService: UsersService, //
+    private readonly usersService: UsersService,
   ) {}
 
   @Mutation(() => String)
@@ -49,5 +52,11 @@ export class AuthResolver {
   ) {
     // accessToken을 만들어서 브라우저에 전달
     return this.authService.getAccessToken({ user: context.req.user });
+  }
+
+  @UseGuards(GqlAuthAccessGuard)
+  @Mutation(() => String)
+  async logout(@Context() context: IContext) {
+    return this.authService.logout({ req: context.req, res: context.res });
   }
 }
