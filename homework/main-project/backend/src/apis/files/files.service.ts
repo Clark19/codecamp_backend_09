@@ -25,10 +25,12 @@ export class FilesService {
       waitedFiles.map((file) => {
         return new Promise((resolve, reject) => {
           file
-            .createReadStream()
-            .pipe(storage.file(file.filename).createWriteStream())
+            .createReadStream() //
+            .pipe(storage.file(file.filename).createWriteStream()) // pipe 안에 파일이 들어온다고 함
+            // 스토리지에 파일 업로드 명령어
+            // .pipe() 읽은 파일에 옵션을 줄때 사용
             .on('finish', () => resolve(`${bucket}/${file.filename}`))
-            .on('error', () => reject('실패')); // pipe 안에 파일이 들어온다고 함
+            .on('error', () => reject('실패'));
         }); // end of return new Promise()
       }), // end of map()
     );
