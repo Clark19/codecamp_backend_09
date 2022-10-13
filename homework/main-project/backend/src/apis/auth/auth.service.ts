@@ -79,11 +79,11 @@ export class AuthService {
       ttl: 0,
     });
 
-    let expireTTL = decodedAccToken.exp; // 나중에 계산해서 수정
+    let expireTTL = 180; // decodedAccToken.exp; // 나중에 계산해서 수정
     await this.cacheManager.set(`accessToken:${accToken}`, accToken, {
       ttl: expireTTL,
     });
-    expireTTL = decodedRefreshToken.exp;
+    // expireTTL = decodedRefreshToken.exp;
     await this.cacheManager.set(`refreshToken:${refreshToken}`, refreshToken, {
       ttl: expireTTL,
     });

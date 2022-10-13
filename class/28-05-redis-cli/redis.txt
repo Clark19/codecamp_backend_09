@@ -1,0 +1,36 @@
+root@797b6fd24422:/data# redis-cli
+127.0.0.1:6379> keys *
+(empty array)
+127.0.0.1:6379> set qqq apple
+OK
+127.0.0.1:6379> keys *
+1) "qqq"
+127.0.0.1:6379> get qqq
+"apple"
+127.0.0.1:6379> ttl qqq
+(integer) -1
+127.0.0.1:6379> expire qqq 20
+(integer) 1
+127.0.0.1:6379> ttl qqq
+(integer) 14
+127.0.0.1:6379> ttl qqq
+(integer) 12
+127.0.0.1:6379> ttl qqq
+(integer) 9
+127.0.0.1:6379> ttl qqq
+(integer) 8
+127.0.0.1:6379> ttl qqq
+(integer) 7
+127.0.0.1:6379> ttl qqq
+(integer) 5
+127.0.0.1:6379> ttl qqq
+(integer) 4
+127.0.0.1:6379> ttl qqq
+(integer) 2
+127.0.0.1:6379> ttl qqq
+(integer) 1
+127.0.0.1:6379> ttl qqq
+(integer) -2
+127.0.0.1:6379> keys *
+(empty array)
+127.0.0.1:6379> 
