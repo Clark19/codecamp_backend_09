@@ -26,7 +26,7 @@ services:
       - ./.env.docker
 
   my-database:
-    # platform: linux/x86_64 # 이거 m1 맥북용이하고 함.
+    # platform: linux/x86_64 # 이거 m1 맥북용이라고 함.
     image: mysql:latest
     # 변경 없이 빌드만 하면 도커파일 불필요
     restart: always
@@ -40,3 +40,27 @@ services:
     image: redis:latest
     ports:
       - 6379:6379
+
+  # ELK 각각이 내부 설정이 elasticsearch, logstash, logstash 라는 이름으로 연결되어있어서(name resolution)
+  # 설정 다 찾아 바꿔야 하므로 기본으름으로 하는게 좋다
+  elasticsearch:
+    image: elasticsearch:7.17.0
+    environment:
+      discovery.type: single-node
+    ports:
+      - 9200:9200
+
+  logstash:
+    image: logstash:7.17.0
+    volumes:
+      - ./elk/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./elk/logstash/mysql-connector-java-8.0.28.jar:/usr/share/logstash/mysql-connector-java-8.0.28.jar
+
+  # # // 필수가 아니므로 시연을 위해 임시 사용
+  # kibana:
+  #   image: kibana:7.17.0
+  #   environment:
+  #     ELASTICSEARCH_URL: http://elasticsearch:9200
+  #     ELASTICSEARCH_HOST: http://elasticsearch:9200
+  #   ports:
+  #     - 5601:5601

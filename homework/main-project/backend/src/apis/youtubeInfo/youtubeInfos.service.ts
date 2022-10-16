@@ -23,10 +23,6 @@ export class YoutubeInfosService {
     private readonly usersRepository: Repository<User>,
   ) {}
 
-  // async findAll() {
-  //   return await this.productsRepository.find();
-  // }
-
   async findAll() {
     // const result = await this.youtubeInfosRepository.find();
     const result = await this.youtubeInfosRepository.find({
@@ -36,6 +32,16 @@ export class YoutubeInfosService {
     // 추가 작업 2 코딩 할땐 위처럼 async, await 써야 함.
     // 그냥 아래처럼 리턴 할거면 async, await 안써도 됨. 알아서 기달렸다가 resolver 쪽에서 리턴 한다는 식으로 말하셨음.
     // return await this.productsRepository.find();
+
+    return result;
+  }
+
+  async findAllByWord(word) {
+    // 멀티 컬럼에서 검색 쿼리로 변경 해야 함
+    const result = await this.youtubeInfosRepository.find({
+      where: { title: word },
+      relations: ['category', 'users'],
+    });
 
     return result;
   }
@@ -123,6 +129,8 @@ export class YoutubeInfosService {
     let result = null;
     if (youtubeInfo) {
       console.log('유튜 정보 있을때', youtubeInfo);
+      // delete in elasticsearchService
+
       // update
       // 1. user 연결 정보 있을때
       //   1.1 category, 자막등 들어와서 업데이트

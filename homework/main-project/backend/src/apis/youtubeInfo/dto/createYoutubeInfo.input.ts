@@ -6,6 +6,9 @@ import { User } from 'src/apis/users/entities/user.entity';
 @InputType()
 export class CreateYoutubeInfoInput {
   @Field(() => String)
+  title: string;
+
+  @Field(() => String)
   url: string;
 
   @Field(() => String, { nullable: true })

@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
 import GraphQLJSON from 'graphql-type-json';
 import { Category } from 'src/apis/categories/entities/category.entity';
 import { User } from 'src/apis/users/entities/user.entity';
@@ -25,18 +25,26 @@ export class YoutubeInfo {
   @Field(() => String)
   id: string;
 
+  /** 동영상 제목 */
+  @Column()
+  @Field(() => String)
+  title: string;
+
   @Column()
   @Field(() => String)
   url: string;
 
+  /** 영상 자막(영어). 동영상의 부제목이 아님! */
   @Column({ type: 'text', nullable: true })
   @Field(() => String, { nullable: true })
   subtitlesEn: string;
 
+  /** 영상 자막(한국어). 동영상의 부제목이 아님! */
   @Column({ type: 'text', nullable: true })
   @Field(() => String, { nullable: true })
   subtitlesKo: string;
 
+  /** 영상 자막(). 동영상의 부제목이 아님! */
   @Column({ type: 'json', nullable: true })
   @Field((type) => GraphQLJSON, { nullable: true })
   // subtitlesWithTime?: JSON;
@@ -53,7 +61,7 @@ export class YoutubeInfo {
   @JoinTable() // 타입 orm이 중간 테이블을 만들어줌. 중간 테이블에 추가 컬럼을 넣어야 할 땐 직접 중간 테이블을 만들어야 함.
   @ManyToMany(() => User, (users) => users.youtubeInfos, { nullable: true })
   // @ManyToMany하면 이 테이블에 속한 컬럼으로 만들어지지 않음
-  @Field((type) => [User], { nullable: true })
+  @Field(() => [User], { nullable: true })
   users: User[];
 
   // @OneToMany(() => UserSubtitle, (userSubtitles) => userSubtitles.youtubeInfo)
@@ -67,8 +75,10 @@ export class YoutubeInfo {
   // @CreateDateColumn() // where: { isDeleted: false }, 이런식으로 쿼리를 날려야 하는데 이걸 자동으로 해줌.
   // createdAt: Date;
 
-  // @UpdateDateColumn()
-  // updatedAt: Date;
+  // 등록/ 수정될때 둘다 갱신됨
+  @UpdateDateColumn()
+  @Field(() => Float, { nullable: true })
+  updatedAt: number;
 
   @DeleteDateColumn()
   @Field(() => Date, { nullable: true })

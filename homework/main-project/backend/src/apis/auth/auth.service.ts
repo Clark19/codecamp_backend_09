@@ -7,7 +7,6 @@ import { JwtService } from '@nestjs/jwt';
 import * as jwt from 'jsonwebtoken';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER, Inject } from '@nestjs/common';
-import { IContext } from 'src/commons/types/context';
 
 @Injectable()
 export class AuthService {
@@ -75,11 +74,7 @@ export class AuthService {
     );
 
     // 1. 캐시에 등록하는 연습
-    await this.cacheManager.set('accessToken', accToken, {
-      ttl: 0,
-    });
-
-    let expireTTL = 180; // decodedAccToken.exp; // 나중에 계산해서 수정
+    let expireTTL = 60 * 30; // decodedAccToken.exp; // 나중에 계산해서 수정
     await this.cacheManager.set(`accessToken:${accToken}`, accToken, {
       ttl: expireTTL,
     });
