@@ -33,7 +33,7 @@ export class ProductSubscriber implements EntitySubscriberInterface {
     // 4방식. 외부빅데이터(BigQuery) 관련 DB에 로그테이블 만들고 저장하기
     // 막 저장하고 검색도 빠르고 잘못되도 메인 디비에 영향도 없고 비교적 관리도 쉽다고 함.
     const bigquery = new BigQuery({
-      keyFilename: 'gcp-file-storage.json', //'gcp-bigquery.json',
+      keyFilename: 'gcp-bigquery.json',
       projectId: 'backend-364006',
     });
 

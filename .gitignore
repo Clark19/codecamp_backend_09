@@ -3,3 +3,5 @@ node_modules
 *.log
 .env*
 gcp-file-storage.json
+gcp-bigquery.json
+gcp-*.json
