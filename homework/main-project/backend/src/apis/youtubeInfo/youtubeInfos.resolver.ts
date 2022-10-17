@@ -50,7 +50,7 @@ export class YoutubeInfosResolver {
 
     // get Redis data
     const searchResultInCache: string = await this.cacheManager.get(
-      `youtubeInfo.title:${search}`,
+      `${search}`,
     );
     if (searchResultInCache) {
       console.log('레디스에서 조회 완료!!');
