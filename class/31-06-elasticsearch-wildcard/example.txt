@@ -1,0 +1,19 @@
+##### wildcard 검색 #####
+
+    # postman wildcard 검색하기(성공) - 최신마우스
+    {
+      "query": {
+        "wildcard": {
+          "name": "*마우*"
+        }
+      }
+    }
+
+    # postman wildcard 검색하기(실패) - 최신마우스
+    {
+      "query": {
+        "match": {
+          "name": "마우"
+        }
+      }
+    }
