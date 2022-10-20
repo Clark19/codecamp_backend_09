@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>결제페이지</title>
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- jQuery -->
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-1.12.4.min.js"
+    ></script>
+    <!-- iamport.payment.js -->
+    <script
+      type="text/javascript"
+      src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"
+    ></script>
+    <script>
+      const IMP = window.IMP; // 생략 가능
+      IMP.init("imp28140658"); // Example: imp00000000
+
+      function requestPay() {
+        // IMP.request_pay(param, callback) 결제창 호출
+        IMP.request_pay(
+          {
+            // param
+            pg: "nice",
+            pay_method: "card",
+            // merchant_uid: "ORD20180131-0000011", // 주문번호 겹치면 에러남(주석처리하면 랜덤으로 생성됨)
+            name: "박진화의자",
+            amount: 100,
+            buyer_email: "clarkgable1@gmail.com",
+            buyer_name: "홍길동",
+            buyer_tel: "010-4242-4242",
+            buyer_addr: "서울특별시 강남구 신사동",
+            buyer_postcode: "01181",
+          },
+          function (rsp) {
+            // callback
+            if (rsp.success) {
+              // 결제 성공 시 로직,
+              axios.post(
+                "http://localhost:3000/graphql",
+                {
+                  query: `
+                    mutation {
+                      createPointTransaction(impUid: "${rsp.imp_uid}", amount: ${rsp.paid_amount}){
+                        id
+                      }
+                    }
+                `,
+                },
+                {
+                  headers: {
+                    Authorization:
+                      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJzdWIiOiIyZTE3ZjNhMi0wN2EyLTQwZTEtODEyOC1hMjBjZWFkZDgzMzAiLCJpYXQiOjE2NjQ4NzYwNjcsImV4cCI6MTY2NDg3OTY2N30.-kTtp-GXmDN1Cbg9iIIbUUZ6sRRoXWZ0Qm-z8KGltyY",
+                  },
+                }
+              );
+              console.log("결제 성공: ", rsp);
+              alert("결제에 성공했습니다!!");
+            } else {
+              // 결제 실패 시 로직,
+              console.log("결제 실패: ", rsp);
+
+              alert("결제에 실패했습니다!!");
+            }
+          }
+        );
+      }
+    </script>
+  </head>
+  <body>
+    <button onclick="requestPay()">결제하기</button>
+  </body>
+</html>

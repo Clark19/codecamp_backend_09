@@ -1,0 +1,34 @@
+version: '3.7'
+
+# 가상 컴퓨터들
+services:
+  my-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/myfolder/src
+      # - ./*.js:/codecamp/*.js
+      # - ./src:/codecamp/src
+      # - .:/codecamp  비추천한다고 하셨음. 이 방식으로 하면 .dockerignore에 node_modules 제외 시켜도
+      #  무시되고 로컬에 있는 node_modules를 도커가 공유해 이상하게 작동하거나 에러 남.
+      # package.json 이 바뀌면 그땐 빌드를 새로 다시 해야함.
+      # 그리고 docker-compose.yaml 파일이 바뀐건 발드 다시 할 필요  없음.
+      # Dockerfile  바뀌면 빌드해야 함.
+      # 도커 바깥에서 vscode로 소스코드 수정한게 도커 안의 파일에도 적용되려면
+      #  volumes랑 nodemon 같이 설정 되있어야 함.
+
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env.docker
+
+  my-database:
+    # platform: linux/x86_64 # 이거 m1 맥북용이라고 함.
+    image: mysql:latest
+    # 변경 없이 빌드만 하면 도커파일 불필요
+    environment:
+      MYSQL_DATABASE: 'mydocker09'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - 3306:3306
