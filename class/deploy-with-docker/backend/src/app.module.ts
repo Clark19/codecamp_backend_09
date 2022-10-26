@@ -12,6 +12,7 @@ import { AuthModule } from './apis/auth/auth.module';
 import { PointsTransactionsModule } from './apis/pointsTransactions/pointsTransactions.module';
 import { PaymentMoudle } from './apis/payment/payment.module';
 import { FilesModule } from './apis/files/files.module';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -43,5 +44,6 @@ import { FilesModule } from './apis/files/files.module';
       logging: true, // typeorm이 생성해주는 쿼리를 보고 싶으면 true로 설정
     }),
   ],
+  controllers: [AppController]
 })
 export class AppModule {}

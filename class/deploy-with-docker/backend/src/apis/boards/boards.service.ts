@@ -9,7 +9,7 @@ export class BoardsService {
   findAll() {
     //1. 데이터 조회하는 로직 => DB에 접속해서 데이터 꺼내오기
     const result = [
-      { number: 1, writer: 'name1', title: '제목1', contents: '컨텐츠1' },
+      { number: 1, writer: 'name1(수정2)', title: '제목1', contents: '컨텐츠1' },
       { number: 2, writer: 'name2', title: 'title2', contents: 'content2' },
       { number: 3, writer: 'name3', title: 'title3', contents: 'content3' },
     ];

@@ -1,0 +1,34 @@
+# docker-compose -f docker-compose.prod.yaml build
+# docker-compose -f docker-compose.prod.yaml push
+# kubectl set image deployment/mybackend09-nestjs my-backend-sha256-1=asia.gcr.io/backend-364006/my-backend:1.7
+
+steps:
+  # 1단계 => docker-compose -f docker-compose.prod.yaml build
+  - name: docker/compose:v2.10.2
+    args:
+      - -f
+      - class/deploy-with-docker/backend/docker-compose.prod.yaml
+      - build
+
+  # 2단계 => docker-compose -f docker-compose.prod.yaml push
+  - name: docker/compose:v2.10.2
+    args:
+      - -f
+      - class/deploy-with-docker/backend/docker-compose.prod.yaml
+      - push
+
+  # 3단계 => kubectl set image deployment/mybackend09-nestjs my-backend-sha256-1=asia.gcr.io/backend-364006/my-backend:1.7
+  - name: gcr.io/cloud-builders/kubectl
+    args:
+      - set
+      - image
+      - deployment/mybackend09-nestjs
+      - my-backend-sha256-1=asia.gcr.io/backend-364006/my-backend:1.7
+    env:
+      - CLOUDSDK_COMPUTE_ZONE=asia-northeast3
+      - CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1
+# 아래와 같은 리눅스 명령들도 작성 가능
+# - name: mkdir
+#   args:
+#     - newDir
+

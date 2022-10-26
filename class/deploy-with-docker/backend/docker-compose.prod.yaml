@@ -3,11 +3,15 @@ version: '3.7'
 # 가상 컴퓨터들
 services:
   my-backend:
+    # GCR(구글 컨테이터 레지스트리)에 업로드 하기 위한 항목
+    # build랑 imge 항목 같이 있으면 빌드 후 업로드 경로 인듯. image 하나만 있으면 다운로드 용
+    image: asia.gcr.io/backend-364006/my-backend:1.7
+    # platform: linux/x86_64 # m1맥북에서 이미지 빌드 후 gcp 업로드 후 gcp에서 돌리려면 이 옵션 활성화 해야함.
     build:
       context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ./src:/myfolder/src
+      dockerfile: Dockerfile.prod
+    # volumes:
+    #   - ./src:/myfolder/src
       # - ./*.js:/codecamp/*.js
       # - ./src:/codecamp/src
       # - .:/codecamp  비추천한다고 하셨음. 이 방식으로 하면 .dockerignore에 node_modules 제외 시켜도
@@ -18,17 +22,17 @@ services:
       # 도커 바깥에서 vscode로 소스코드 수정한게 도커 안의 파일에도 적용되려면
       #  volumes랑 nodemon 같이 설정 되있어야 함.
 
-    ports:
-      - 3000:3000
-    env_file:
-      - ./.env.prod
+    # ports:
+    #   - 3000:3000
+    # env_file:
+    #   - ./.env.prod
 
-  my-database:
-    # platform: linux/x86_64 # 이거 m1 맥북용이라고 함.
-    image: mysql:latest
-    # 변경 없이 빌드만 하면 도커파일 불필요
-    environment:
-      MYSQL_DATABASE: 'myprod09'
-      MYSQL_ROOT_PASSWORD: 'root'
-    ports:
-      - 3306:3306
+  # my-database:
+  #   # platform: linux/x86_64 # 이거 m1 맥북용이라고 함.
+  #   image: mysql:latest
+  #   # 변경 없이 빌드만 하면 도커파일 불필요
+  #   environment:
+  #     MYSQL_DATABASE: 'myprod09'
+  #     MYSQL_ROOT_PASSWORD: 'root'
+  #   ports:
+  #     - 3306:3306
