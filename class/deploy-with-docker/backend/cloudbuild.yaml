@@ -4,14 +4,14 @@
 
 steps:
   # 1단계 => docker-compose -f docker-compose.prod.yaml build
-  - name: docker/compose:v2.10.2
+  - name: docker/compose:2.10.2
     args:
       - -f
       - class/deploy-with-docker/backend/docker-compose.prod.yaml
       - build
 
   # 2단계 => docker-compose -f docker-compose.prod.yaml push
-  - name: docker/compose:v2.10.2
+  - name: docker/compose:2.10.2
     args:
       - -f
       - class/deploy-with-docker/backend/docker-compose.prod.yaml
