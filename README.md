@@ -23,22 +23,22 @@
 ## API 설계
 
 - api 목록
-  fetchUsers
-  fetchUsersWithDeleted
-  fetchLoginUser
-  createUser
-  updateUser
-  updateUserPwd
-  deleteUser
-  deleteLoginUser
-  restoreUser
-
-fetchYoutubeInfos
-fetchYoutubeInfo
-createYoutubeInfo
-updateYoutubeInfo
-deleteYoutubeInfo
-restoreYoutubeInfo
+- fetchUsers
+- fetchUsersWithDeleted
+- fetchLoginUser
+- createUser
+- updateUser
+- updateUserPwd
+- deleteUser
+- deleteLoginUser
+- restoreUser
+-
+- fetchYoutubeInfos
+- fetchYoutubeInfo
+- createYoutubeInfo
+- updateYoutubeInfo
+- deleteYoutubeInfo
+- restoreYoutubeInfo
 
 ## 프로젝트 설치 방법 & 실행 방법
 
